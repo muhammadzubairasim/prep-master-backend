@@ -1,6 +1,6 @@
 import { sendOtpEmail } from "./../helpers/user.helper";
 import express from "express";
-import * as userController from "../controllers/user.controller";
+import * as userController from "../controllers/user.controllers";
 import { validateData } from "../middlewares/validate.middleware";
 import {
   signInSchema,

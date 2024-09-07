@@ -1,3 +1,4 @@
+import { DurationType } from "@prisma/client";
 import * as Yup from "yup";
 
 // User Schema
@@ -49,6 +50,7 @@ export const testSchema = Yup.object({
   duration: Yup.number()
     .positive("Duration must be a positive number")
     .required("Duration is required"),
+  DurationType: Yup.mixed<DurationType>(),
   testSeriesId: Yup.string()
     .uuid("Invalid UUID format")
     .required("Test Series ID is required"),

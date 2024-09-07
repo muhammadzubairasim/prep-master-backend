@@ -1,4 +1,3 @@
-import { send } from "process";
 import prisma from "../../prisma.client";
 import { generateAccessToken, sendOtpEmail } from "../helpers/user.helper";
 import { UserDTO } from "../interfaces/DTOs/DTOs";

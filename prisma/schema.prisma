@@ -61,7 +61,6 @@ model TestSeries {
   language     String
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
-  verified     Boolean      @default(false)
   // Relationships
   instructor   User         @relation("InstructorTestSeries", fields: [instructorId], references: [id])
   instructorId String

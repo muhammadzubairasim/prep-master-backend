@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import userRouter from "./api/routes/user.routes";
 import cors from "cors";
+import testRouter from "./api/routes/test.routes";
 const app = express();
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/user", userRouter);
+app.use("/createTest", testRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

@@ -28,8 +28,6 @@ export class TestSeriesDTO {
   price!: number;
   language!: string;
   level!: TestLevel;
-  createdAt!: Date;
-  updatedAt!: Date;
   instructor!: UserDTO;
   instructorId!: string;
   categories!: CategoryDTO[];
@@ -38,32 +36,23 @@ export class TestSeriesDTO {
   reviews!: ReviewDTO[];
 }
 
-export class CategoryDTO {
-  id!: string;
-  name!: string;
-  testSeries!: TestSeriesDTO[];
-}
-
 export class TestDTO {
   id!: string;
   title!: string;
   duration!: number;
-  testSeries!: TestSeriesDTO;
-  testSeriesId!: string;
+  durationType!: string;
   questions!: QuestionDTO[];
-  createdAt!: Date;
-  updatedAt!: Date;
 }
 
 export class QuestionDTO {
-  id!: string;
   text!: string;
   options!: Record<string, string>; // Assuming the JSON structure is a map of options
   correctOption!: string;
-  test!: TestDTO;
-  testId!: string;
-  createdAt!: Date;
-  updatedAt!: Date;
+}
+export class CategoryDTO {
+  id!: string;
+  name!: string;
+  testSeries!: TestSeriesDTO[];
 }
 
 export class EnrollmentDTO {
