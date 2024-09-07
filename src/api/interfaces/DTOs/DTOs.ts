@@ -13,19 +13,12 @@ export enum TestLevel {
 }
 
 export class UserDTO {
-  id!: string;
   email!: string;
   passwordHash!: string;
   firstName!: string;
   lastName!: string;
   role!: Role;
   profilePictureUrl?: string;
-  bio?: string;
-  createdAt!: Date;
-  updatedAt!: Date;
-  testSeries!: TestSeriesDTO[];
-  enrollments!: EnrollmentDTO[];
-  reviews!: ReviewDTO[];
 }
 
 export class TestSeriesDTO {
