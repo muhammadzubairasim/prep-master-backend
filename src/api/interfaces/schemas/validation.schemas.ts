@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 
 // User Schema
-export const userSchema = Yup.object({
+export const signUpSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  passwordHash: Yup.string().required("Password hash is required"),
+  password: Yup.string().required("Password hash is required"),
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
   role: Yup.mixed<"STUDENT" | "INSTRUCTOR" | "ADMIN">()
