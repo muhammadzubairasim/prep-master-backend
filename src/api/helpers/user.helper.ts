@@ -113,5 +113,5 @@ export const sendOtpEmail = async (to: string, otp: string): Promise<void> => {
       </html>
     `;
 
-  await sendEmail(to, "Your OTP Code", htmlContent);
+  return await sendEmail(to, "Your OTP Code", htmlContent);
 };
