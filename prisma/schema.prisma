@@ -22,6 +22,7 @@ model User {
   role              Role
   profilePictureUrl String?
   bio               String?
+  verified          Boolean  @default(false)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
@@ -47,6 +48,11 @@ enum Role {
   ADMIN
 }
 
+enum DurationType {
+  MINUTES
+  HOURS
+}
+
 model TestSeries {
   id           String       @id @default(uuid())
   title        String
@@ -63,6 +69,7 @@ model TestSeries {
   tests        Test[]
   enrollments  Enrollment[]
   Review       Review[]
+  tags         String[]
 }
 
 model Category {
@@ -72,14 +79,15 @@ model Category {
 }
 
 model Test {
-  id           String     @id @default(uuid())
+  id           String       @id @default(uuid())
   title        String
   duration     Int
-  testSeries   TestSeries @relation(fields: [testSeriesId], references: [id])
+  durationType DurationType
+  testSeries   TestSeries   @relation(fields: [testSeriesId], references: [id])
   testSeriesId String
   questions    Question[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model Question {

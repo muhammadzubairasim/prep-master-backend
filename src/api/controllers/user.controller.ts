@@ -1,6 +1,7 @@
 import { NextFunction } from "express";
 import { Request, Response } from "express";
 import * as userServices from "../services/user.services";
+import exp from "constants";
 // Sign up endpoint
 export const signUp = async (
   req: Request,
@@ -71,6 +72,25 @@ export const otpController = async (
     if (otpSent)
       return res.status(200).json({ message: "OTP sent successfully" });
     else return res.status(400).json({ message: "OTP sending failed" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const otpVerificationController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.query.userId as string;
+    const otp = req.query.otp as string;
+    if (!userId || !otp)
+      return res.status(400).json({ message: "User ID and OTP are required" });
+    const otpVerified = await userServices.otpVerificationService(userId, otp);
+    if (otpVerified)
+      return res.status(200).json({ message: "OTP verified successfully" });
+    else return res.status(400).json({ message: "OTP verification failed" });
   } catch (error) {
     next(error);
   }

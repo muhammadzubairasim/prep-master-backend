@@ -10,6 +10,7 @@ import {
 const userRouter = express.Router();
 
 userRouter.post("/sendotp", userController.otpController);
+userRouter.post("/verifyotp", userController.verifyOtpController);
 userRouter.post("/signin", validateData(signInSchema), userController.signIn);
 userRouter.post("/signup", validateData(signUpSchema), userController.signUp);
 
