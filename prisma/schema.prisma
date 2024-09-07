@@ -14,11 +14,92 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String
-  password  String
-  state     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  email             String   @unique
+  passwordHash      String
+  firstName         String
+  lastName          String
+  role              Role
+  profilePictureUrl String?
+  bio               String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  testSeries  TestSeries[] @relation("InstructorTestSeries")
+  enrollments Enrollment[]
+  Review      Review[]
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+model TestSeries {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  language    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  instructor   User         @relation("InstructorTestSeries", fields: [instructorId], references: [id])
+  instructorId String
+  categories   Category[]   @relation("TestSeriesCategories")
+  tests        Test[]
+  enrollments  Enrollment[]
+  Review       Review[]
+}
+
+model Category {
+  id         String       @id @default(uuid())
+  name       String       @unique
+  testSeries TestSeries[] @relation("TestSeriesCategories")
+}
+
+model Test {
+  id           String     @id @default(uuid())
+  title        String
+  duration     Int
+  testSeries   TestSeries @relation(fields: [testSeriesId], references: [id])
+  testSeriesId String
+  questions    Question[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  text          String
+  options       Json // Store options as JSON, e.g., [{ "A": "Option 1", "B": "Option 2", "C": "Option 3", "D": "Option 4" }]
+  correctOption String // Stores the correct option (e.g., "A")
+  test          Test     @relation(fields: [testId], references: [id])
+  testId        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Enrollment {
+  id           String     @id @default(uuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  testSeries   TestSeries @relation(fields: [testSeriesId], references: [id])
+  testSeriesId String
+  enrolledAt   DateTime   @default(now())
+}
+
+model Review {
+  id           String     @id @default(uuid())
+  rating       Int
+  comment      String?
+  testSeriesId String
+  testSeries   TestSeries @relation(fields: [testSeriesId], references: [id])
+  userId       String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  User         User       @relation(fields: [userId], references: [id])
 }
