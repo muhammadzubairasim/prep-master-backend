@@ -77,7 +77,7 @@ export const otpController = async (
   }
 };
 
-export const otpVerificationController = async (
+export const verifyOtpController = async (
   req: Request,
   res: Response,
   next: NextFunction
