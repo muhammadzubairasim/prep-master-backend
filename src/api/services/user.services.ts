@@ -115,7 +115,7 @@ export const otpVerificationService = async (userId: string, otp: string) => {
     },
   });
   if (otpRecord) {
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: {
         id: userId,
       },
@@ -123,6 +123,8 @@ export const otpVerificationService = async (userId: string, otp: string) => {
         verified: true,
       },
     });
+    console.log("User verified successfully:", user);
+
     return true;
   } else {
     return false;
