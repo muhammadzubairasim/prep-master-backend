@@ -10,7 +10,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/auth", userRouter);
+app.use("/user", userRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

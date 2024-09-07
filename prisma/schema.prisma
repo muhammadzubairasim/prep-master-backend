@@ -29,10 +29,10 @@ model User {
   testSeries  TestSeries[] @relation("InstructorTestSeries")
   enrollments Enrollment[]
   Review      Review[]
-  otps        OTP[]
+  otps        Otp[]
 }
 
-model OTP {
+model Otp {
   id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
@@ -48,14 +48,14 @@ enum Role {
 }
 
 model TestSeries {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  price       Float
-  language    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
+  id           String       @id @default(uuid())
+  title        String
+  description  String
+  price        Float
+  language     String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  verified     Boolean      @default(false)
   // Relationships
   instructor   User         @relation("InstructorTestSeries", fields: [instructorId], references: [id])
   instructorId String

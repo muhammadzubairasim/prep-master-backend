@@ -1,11 +1,14 @@
 import { User } from "@prisma/client";
 import { UserDTO } from "../interfaces/DTOs/DTOs";
 import jwt, { Secret, JwtPayload } from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import nodemailer, { SentMessageInfo } from "nodemailer";
 const secretKey = process.env.JWT_SECRET ?? "defaultSecretKey";
-
+console.log(process.env.personalEmailPw);
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Example for Gmail; use appropriate service for other providers
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Example for Gmail; use appropriate service for other providers
   auth: {
     user: "zubairasim7@gmail.com", // Your email address
     pass: process.env.personalEmailPw, // Your email password (or app password)
@@ -33,18 +36,21 @@ const sendEmail = async (
   to: string,
   subject: string,
   html: string
-): Promise<void> => {
+): Promise<SentMessageInfo | void> => {
   try {
+    if (!process.env.personalEmailPw) {
+      throw new Error("Email password not found in environment variables");
+    }
     const info = await transporter.sendMail({
-      from: process.env.EMAIL_USER, // Sender email address from environment variables
+      from: "zubairasim7@gmail.com", // Sender email address from environment variables
       to, // Recipient email address
       subject, // Subject of the email
       html, // HTML content of the email
     });
 
-    console.log("Email sent:", info.response);
+    return info;
   } catch (error) {
-    console.error("Error sending email:", error);
+    return false;
   }
 };
 

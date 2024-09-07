@@ -55,3 +55,23 @@ export const signIn = async (
     next(error);
   }
 };
+
+export const otpController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // console.log(req);
+    const userId = req.query.userId as string;
+    // const userId = "1234";
+    if (!userId)
+      return res.status(400).json({ message: "User ID is required" });
+    const otpSent = await userServices.otpSendingService(userId);
+    if (otpSent)
+      return res.status(200).json({ message: "OTP sent successfully" });
+    else return res.status(400).json({ message: "OTP sending failed" });
+  } catch (error) {
+    next(error);
+  }
+};

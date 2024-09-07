@@ -73,11 +73,34 @@ export const userSignUp = async (userRegistrationObject: UserDTO) => {
 
   const accessToken = generateAccessToken(newUser);
   console.log("Access token generated:", accessToken);
-  const otp = Math.floor(1000 + Math.random() * 9000);
-
-  await sendOtpEmail(newUser.email, otp.toString());
   return {
     user: newUser,
     accessToken: accessToken,
   };
+};
+
+export const otpSendingService = async (userId: string) => {
+  try {
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    const saveOtp = await prisma.otp.create({
+      data: {
+        otp: otp.toString(),
+        userId: userId,
+        expiresAt: new Date(Date.now() + 60000),
+      }, // Add type assertion here
+    });
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    console.log(user);
+    if (user && user.email) {
+      const emailSent = await sendOtpEmail(user.email, otp.toString());
+      console.log(emailSent);
+      return emailSent;
+    }
+  } catch {
+    return false;
+  }
 };
