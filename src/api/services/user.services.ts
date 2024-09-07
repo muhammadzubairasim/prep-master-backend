@@ -1,5 +1,6 @@
+import { send } from "process";
 import prisma from "../../prisma.client";
-import { generateAccessToken } from "../helpers/user.helper";
+import { generateAccessToken, sendOtpEmail } from "../helpers/user.helper";
 import { UserDTO } from "../interfaces/DTOs/DTOs";
 import CustomError from "../shared/exceptions/CustomError";
 import bcrypt from "bcrypt";
@@ -41,12 +42,14 @@ export const userSignUp = async (userRegistrationObject: UserDTO) => {
     );
   }
 
+  console.log("password", userRegistrationObject.password);
+
   const saltRounds = 10;
+
   const passwordHash = await bcrypt.hash(
-    userRegistrationObject.passwordHash,
+    userRegistrationObject.password,
     saltRounds
   );
-
   if (
     ["STUDENT", "INSTRUCTOR", "ADMIN"].includes(userRegistrationObject.role) ===
     false
@@ -70,7 +73,9 @@ export const userSignUp = async (userRegistrationObject: UserDTO) => {
 
   const accessToken = generateAccessToken(newUser);
   console.log("Access token generated:", accessToken);
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
+  await sendOtpEmail(newUser.email, otp.toString());
   return {
     user: newUser,
     accessToken: accessToken,

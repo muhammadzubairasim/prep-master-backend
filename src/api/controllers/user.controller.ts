@@ -9,6 +9,7 @@ export const signUp = async (
 ) => {
   // Implement your sign up logic here
   try {
+    console.log(req.body);
     const { email, password } = req.body;
 
     // Check if email and password are provided
@@ -46,10 +47,6 @@ export const signIn = async (
     }
 
     // Check if email and password are valid
-    if (email !== "example@example.com" || password !== "password") {
-      return res.status(401).json({ message: "Invalid email or password" });
-    }
-
     const signInUser = await userServices.userSignIn(email, password);
 
     // Generate and return a JWT token

@@ -29,6 +29,16 @@ model User {
   testSeries  TestSeries[] @relation("InstructorTestSeries")
   enrollments Enrollment[]
   Review      Review[]
+  otps        OTP[]
+}
+
+model OTP {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  otp       String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
 }
 
 enum Role {

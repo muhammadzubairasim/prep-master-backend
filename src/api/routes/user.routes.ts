@@ -6,9 +6,9 @@ import {
   signUpSchema,
 } from "../interfaces/schemas/validation.schemas";
 // make sign in and sign up routes
-const router = express.Router();
+const userRouter = express.Router();
 
-router.post("/signin", validateData(signInSchema), userController.signIn);
-router.post("/signup", validateData(signUpSchema), userController.signUp);
+userRouter.post("/signin", validateData(signInSchema), userController.signIn);
+userRouter.post("/signup", validateData(signUpSchema), userController.signUp);
 
-export default router;
+export default userRouter;

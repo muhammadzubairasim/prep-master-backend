@@ -14,7 +14,7 @@ export enum TestLevel {
 
 export class UserDTO {
   email!: string;
-  passwordHash!: string;
+  password!: string;
   firstName!: string;
   lastName!: string;
   role!: Role;

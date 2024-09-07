@@ -22,7 +22,7 @@ export const signInSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  passwordHash: Yup.string().required("Password hash is required"),
+  password: Yup.string().required("Password hash is required"),
 });
 
 // TestSeries Schema
