@@ -17,6 +17,14 @@ export const userSchema = Yup.object({
   bio: Yup.string().nullable(),
 });
 
+// user sign in schema
+export const signInSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  passwordHash: Yup.string().required("Password hash is required"),
+});
+
 // TestSeries Schema
 export const testSeriesSchema = Yup.object({
   title: Yup.string().required("Title is required"),
