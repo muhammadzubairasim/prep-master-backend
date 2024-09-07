@@ -94,13 +94,37 @@ export const otpSendingService = async (userId: string) => {
         id: userId,
       },
     });
-    console.log(user);
+    // console.log(user);
     if (user && user.email) {
       const emailSent = await sendOtpEmail(user.email, otp.toString());
-      console.log(emailSent);
       return emailSent;
     }
   } catch {
+    return false;
+  }
+};
+
+export const otpVerificationService = async (userId: string, otp: string) => {
+  const otpRecord = await prisma.otp.findFirst({
+    where: {
+      userId: userId,
+      otp: otp,
+      expiresAt: {
+        gte: new Date(),
+      },
+    },
+  });
+  if (otpRecord) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        verified: true,
+      },
+    });
+    return true;
+  } else {
     return false;
   }
 };
